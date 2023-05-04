@@ -1,37 +1,31 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'common/constants.dart';
+import 'home/home.dart';
+
+Future<void> main() async {
+  runApp(
+    const App(),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Meraxes FTB',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: MaterialApp(
+        title: '',
+        debugShowCheckedModeBanner: false,
+        initialRoute: RouteConstants.homeRoute,
+        routes: {
+          RouteConstants.homeRoute: (context) => const HomePage(),
+        },
       ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: const Center(),
     );
   }
 }
