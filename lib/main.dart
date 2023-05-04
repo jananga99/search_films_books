@@ -19,7 +19,7 @@ class App extends StatelessWidget {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: MaterialApp(
-        title: '',
+        title: 'Meraxes FTB',
         debugShowCheckedModeBanner: false,
         initialRoute: RouteConstants.homeRoute,
         routes: {
