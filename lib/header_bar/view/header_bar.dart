@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/widgets.dart';
+import '../widgets/home_icon.dart';
+import '../widgets/profile.dart';
 
 class HeaderBar extends StatelessWidget implements PreferredSizeWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'common/constants.dart';
-import 'home/home.dart';
+import 'common/constants/route_constants.dart';
+import 'home/view/home_page.dart';
 
 Future<void> main() async {
   runApp(

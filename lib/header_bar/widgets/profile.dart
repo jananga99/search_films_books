@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ftb/common/ui_constants.dart';
+import 'package:ftb/common/constants/ui_constants.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
