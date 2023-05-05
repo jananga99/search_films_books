@@ -1,56 +1,53 @@
 class Tv {
   final bool adult;
-  final String backdropPath;
+  final String? backdropPath;
+  final List<int> genreIds;
   final int id;
-  final String name;
+  final List<String> originCountry;
   final String originalLanguage;
   final String originalName;
   final String overview;
-  final String posterPath;
-  final String mediaType;
-  final List<int> genreIds;
   final double popularity;
-  final String firstAirDate;
-  final double voteAverage;
-  final String voteCount;
-  final List<String> originCountry;
+  final String? posterPath;
+  final String? firstAirDate;
+  final String name;
+  final double? voteAverage;
+  final int? voteCount;
 
   const Tv({
-    required this.id,
-    required this.name,
     required this.adult,
     required this.backdropPath,
+    required this.genreIds,
+    required this.id,
+    required this.originCountry,
     required this.originalLanguage,
     required this.originalName,
     required this.overview,
-    required this.posterPath,
-    required this.mediaType,
-    required this.genreIds,
     required this.popularity,
+    required this.posterPath,
     required this.firstAirDate,
+    required this.name,
     required this.voteAverage,
     required this.voteCount,
-    required this.originCountry,
   });
 
   factory Tv.fromJson(Map<String, dynamic> json) {
     print(json);
     return Tv(
-      id: json['id'],
-      name: json['name'],
       adult: json['adult'],
       backdropPath: json['backdrop_path'],
+      genreIds: json['genre_ids'].cast<int>(),
+      id: json['id'],
+      originCountry: json['origin_country'].cast<String>(),
       originalLanguage: json['original_language'],
       originalName: json['original_name'],
       overview: json['overview'],
-      posterPath: json['poster_path'],
-      mediaType: json['media_type'],
-      genreIds: json['genre_ids'],
       popularity: json['popularity'],
+      posterPath: json['poster_path'],
       firstAirDate: json['first_air_date'],
+      name: json['name'],
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
-      originCountry: json['origin_country'],
     );
   }
 }

@@ -1,17 +1,17 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-class MovieRepository {
+class TvRepository {
   final String _apiAuthorityUrl;
   final String _apiPathPrefixUrl;
   final String _bearerToken;
 
-  MovieRepository()
+  TvRepository()
       : _apiAuthorityUrl = dotenv.env['API_AUTHORITY_URL']!,
-        _apiPathPrefixUrl = dotenv.env['API_MOVIE_SEARCH']!,
+        _apiPathPrefixUrl = dotenv.env['API_TV_SEARCH']!,
         _bearerToken = dotenv.env['BEARER_TOKEN']!;
 
-  Future<http.Response> fetchMovies(
+  Future<http.Response> fetchTvs(
       {required String searchText, required int page}) async {
     final Uri uri = Uri.https(_apiAuthorityUrl, _apiPathPrefixUrl, {
       'language': 'en',

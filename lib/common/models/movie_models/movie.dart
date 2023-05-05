@@ -10,9 +10,9 @@ class Movie {
   final String? posterPath;
   final String? releaseDate;
   final String title;
-  final bool video;
-  final double voteAverage;
-  final int voteCount;
+  final bool? video;
+  final double? voteAverage;
+  final int? voteCount;
 
   const Movie({
     required this.id,
