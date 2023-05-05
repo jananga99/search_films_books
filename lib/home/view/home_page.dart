@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ftb/header_bar/view/header_bar.dart';
 import 'package:ftb/home/widgets/search_bar/search_bar.dart';
 import 'package:ftb/home/widgets/tv_section/tv_section.dart';
@@ -20,53 +21,72 @@ class _HomePageState extends State<HomePage>
   late TvBloc _tvBloc;
 
   int selectedIndex = 0;
-
-  final List<Tab> _tabs = <Tab>[
-    const Tab(
-      child: Text(
-        "Movies",
-        style: TextStyle(color: Colors.black),
-      ),
-    ),
-    const Tab(
-      child: Text(
-        'Tv Series',
-        style: TextStyle(color: Colors.black),
-      ),
-    ),
-  ];
-
   late TabController _tabController;
+  final List<String> tabList = ["Movies", "Tv Series"];
+  final TextEditingController _searchTextController = TextEditingController();
+  bool isSearchTextEmpty = true;
+
+  void handleSearch() {
+    if (_searchTextController.text.isNotEmpty) {
+      if (_tabController.index == 0) {
+        _moviesBloc.add(MoviesStarted(searchText: _searchTextController.text));
+      } else if (_tabController.index == 1) {
+        _tvBloc.add(TvStarted(searchText: _searchTextController.text));
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: _tabs.length);
+    _searchTextController.addListener(() {
+      setState(() {
+        isSearchTextEmpty = _searchTextController.text.isEmpty;
+      });
+    });
+    _tabController = TabController(vsync: this, length: tabList.length);
     _tabController.addListener(() {
+      if (_tabController.index != selectedIndex) {
+        handleSearch();
+      }
       setState(() {
         selectedIndex = _tabController.index;
-        print(selectedIndex);
       });
     });
   }
 
   @override
   void dispose() {
+    _searchTextController.dispose();
     _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    _moviesBloc = context.read<MoviesBloc>();
+    _tvBloc = context.read<TvBloc>();
     return Scaffold(
       appBar: const HeaderBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SearchBar(),
+            SearchBar(
+              searchFn: handleSearch,
+              searchTextController: _searchTextController,
+            ),
             TabBar(
               controller: _tabController,
-              tabs: _tabs,
+              tabs: tabList
+                  .map(
+                    (e) => Tab(
+                      child: Text(
+                        e,
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
             IndexedStack(
               index: selectedIndex,
@@ -81,50 +101,3 @@ class _HomePageState extends State<HomePage>
     );
   }
 }
-
-// BlocBuilder<MoviesBloc, MoviesState>(
-//   builder: (context, state) {
-//     _moviesBloc = context.read<MoviesBloc>();
-//     _tvBloc = context.read<TvBloc>();
-//     if (_moviesBloc.state.status == MoviesStatus.idle) {
-//       _moviesBloc.add(const MoviesStarted(searchText: 'dragons'));
-//     } else if (_moviesBloc.state.status == MoviesStatus.succeeded) {
-//       print(_moviesBloc.state.movies);
-//     }
-//     if (_tvBloc.state.status == TvStatus.idle) {
-//       _tvBloc.add(const TvStarted(searchText: 'dragons'));
-//     } else if (_tvBloc.state.status == TvStatus.succeeded) {
-//       print(_tvBloc.state.tvs);
-//     }
-//     return Column(
-//       children: [
-//         Visibility(
-//           visible: _moviesBloc.state.status == MoviesStatus.idle ||
-//               _moviesBloc.state.status == MoviesStatus.loading,
-//           child: const CircularProgressIndicator(
-//             color: Colors.red,
-//           ),
-//         ),
-//         Visibility(
-//             visible: _moviesBloc.state.status == MoviesStatus.succeeded,
-//             child: const Text("Success Movie")),
-//         Visibility(
-//             visible: _moviesBloc.state.status == MoviesStatus.failed,
-//             child: const Text("Failed Movie")),
-//         Visibility(
-//           visible: _tvBloc.state.status == TvStatus.idle ||
-//               _tvBloc.state.status == TvStatus.loading,
-//           child: const CircularProgressIndicator(
-//             color: Colors.red,
-//           ),
-//         ),
-//         Visibility(
-//             visible: _tvBloc.state.status == TvStatus.succeeded,
-//             child: const Text("Success Tv")),
-//         Visibility(
-//             visible: _tvBloc.state.status == TvStatus.failed,
-//             child: const Text("Failed Tv"))
-//       ],
-//     );
-//   },
-// ),

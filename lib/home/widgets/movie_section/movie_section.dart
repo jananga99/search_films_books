@@ -1,4 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../bloc/movies_bloc/movies_bloc.dart';
 
 class MovieSection extends StatefulWidget {
   const MovieSection({Key? key}) : super(key: key);
@@ -8,20 +11,38 @@ class MovieSection extends StatefulWidget {
 }
 
 class _MovieSectionState extends State<MovieSection> {
+  late MoviesBloc _moviesBloc;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text(
-          'Movies',
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        // List of movies goes here
-      ],
+    return BlocBuilder<MoviesBloc, MoviesState>(
+      buildWhen: (prev, current) => prev != current,
+      builder: (context, state) {
+        _moviesBloc = context.read<MoviesBloc>();
+        if (state.status == MoviesStatus.succeeded) {
+          print(state.movies);
+        }
+
+        return Column(
+          children: [
+            Visibility(
+              visible: _moviesBloc.state.status == MoviesStatus.idle,
+              child: const Text("Search to see your films"),
+            ),
+            Visibility(
+              visible: _moviesBloc.state.status == MoviesStatus.loading,
+              child: const CircularProgressIndicator(
+                color: Colors.red,
+              ),
+            ),
+            Visibility(
+                visible: _moviesBloc.state.status == MoviesStatus.succeeded,
+                child: const Text("Success Movie")),
+            Visibility(
+                visible: _moviesBloc.state.status == MoviesStatus.failed,
+                child: const Text("Failed Movie")),
+          ],
+        );
+      },
     );
   }
 }

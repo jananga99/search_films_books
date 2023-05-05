@@ -32,7 +32,6 @@ class Tv {
   });
 
   factory Tv.fromJson(Map<String, dynamic> json) {
-    print(json);
     return Tv(
       adult: json['adult'],
       backdropPath: json['backdrop_path'],

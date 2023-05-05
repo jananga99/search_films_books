@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key}) : super(key: key);
+  final void Function() searchFn;
+  final TextEditingController searchTextController;
+
+  const SearchBar(
+      {Key? key, required this.searchFn, required this.searchTextController})
+      : super(key: key);
 
   @override
   State<SearchBar> createState() => _SearchBarState();
@@ -9,31 +14,10 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _searchTextController = TextEditingController();
-
-  bool isSearchTextEmpty = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _searchTextController.addListener(() {
-      setState(() {
-        isSearchTextEmpty = _searchTextController.text.isEmpty;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _searchTextController.dispose();
-    super.dispose();
-  }
 
   bool _isButtonDisabled() {
-    return _searchTextController.text.isEmpty;
+    return widget.searchTextController.text.isEmpty;
   }
-
-  void _handleSearch() {}
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +27,7 @@ class _SearchBarState extends State<SearchBar> {
           child: Form(
             key: _formKey,
             child: TextFormField(
-              controller: _searchTextController,
+              controller: widget.searchTextController,
               decoration: const InputDecoration(
                 hintText: 'Search here...',
               ),
@@ -60,11 +44,10 @@ class _SearchBarState extends State<SearchBar> {
           width: 10.0,
         ),
         ElevatedButton(
-          onPressed: _isButtonDisabled() ? null : _handleSearch,
+          onPressed: _isButtonDisabled() ? null : widget.searchFn,
           child: const Text('Search '),
         ),
       ],
     );
-    ;
   }
 }
