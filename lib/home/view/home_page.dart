@@ -1,4 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/movies_bloc/movies_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,8 +11,41 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late MoviesBloc _moviesBloc;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return BlocBuilder<MoviesBloc, MoviesState>(
+      builder: (context, state) {
+        _moviesBloc = context.read<MoviesBloc>();
+        if (_moviesBloc.state.status == MoviesStatus.idle) {
+          _moviesBloc.add(const MoviesStarted(searchText: 'dragons'));
+        } else if (_moviesBloc.state.status == MoviesStatus.succeeded) {
+          print(_moviesBloc.state.movies);
+        }
+        return Column(
+          children: [
+            Visibility(
+              visible: _moviesBloc.state.status == MoviesStatus.idle ||
+                  _moviesBloc.state.status == MoviesStatus.loading,
+              child: const CircularProgressIndicator(
+                color: Colors.red,
+              ),
+            ),
+            Visibility(
+                visible: _moviesBloc.state.status == MoviesStatus.succeeded,
+                child: const Text("Success")),
+            Visibility(
+                visible: _moviesBloc.state.status == MoviesStatus.failed,
+                child: const Text("Failed"))
+          ],
+        );
+      },
+    );
   }
 }
