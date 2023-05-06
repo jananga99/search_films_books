@@ -77,18 +77,3 @@ class MovieCard extends StatelessWidget {
     );
   }
 }
-
-// return _movie.posterPath != null
-//     ? Image.network(
-//         imageUrl + _movie.posterPath!,
-//         width: 150,
-//         height: 100,
-//         errorBuilder: (BuildContext context, Object exception,
-//             StackTrace? stackTrace) {
-//           logger.e(exception);
-//           return const Icon(Icons.photo,
-//               size:
-//                   200); // show a placeholder icon when image fails to load
-//         },
-//       )
-//     : const SizedBox();

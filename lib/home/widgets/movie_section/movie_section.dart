@@ -52,12 +52,3 @@ class _MovieSectionState extends State<MovieSection> {
     );
   }
 }
-
-// ListView(
-// scrollDirection: Axis.vertical,
-// shrinkWrap: true,
-// physics: const NeverScrollableScrollPhysics(),
-// children: state.movies
-//     .map((Movie movie) => MovieCard(movie))
-// .toList(),
-// )

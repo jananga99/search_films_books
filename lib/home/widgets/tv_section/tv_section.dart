@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ftb/home/widgets/tv_section/tv_cards/tv_card.dart';
 
 import '../../bloc/tv_bloc/tv_bloc.dart';
 
@@ -18,9 +19,6 @@ class _TvSectionState extends State<TvSection> {
       buildWhen: (prev, current) => prev != current,
       builder: (context, state) {
         _tvBloc = context.read<TvBloc>();
-        if (state.status == TvStatus.succeeded) {
-          print(state.tvs);
-        }
         return Column(
           children: [
             Visibility(
@@ -35,10 +33,18 @@ class _TvSectionState extends State<TvSection> {
             ),
             Visibility(
                 visible: _tvBloc.state.status == TvStatus.succeeded,
-                child: const Text("Success Tv")),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.4,
+                  padding: const EdgeInsets.all(16),
+                  children: state.tvs.map((tv) => TvCard(tv)).toList(),
+                )),
             Visibility(
                 visible: _tvBloc.state.status == TvStatus.failed,
-                child: const Text("Failed Tv")),
+                child: const Text("Failed Movie")),
           ],
         );
       },
