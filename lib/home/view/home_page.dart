@@ -67,22 +67,24 @@ class _HomePageState extends State<HomePage>
     _moviesBloc = context.read<MoviesBloc>();
     _tvBloc = context.read<TvBloc>();
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: SafeArea(
-        minimum: const EdgeInsets.symmetric(vertical: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const HeaderBar(),
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: SearchBar(
-                  searchFn: handleSearch,
-                  searchTextController: _searchTextController,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: SafeArea(
+          minimum: const EdgeInsets.symmetric(vertical: 20),
+          child: CustomScrollView(
+            slivers: <Widget>[
+              const SliverToBoxAdapter(child: HeaderBar()),
+              SliverToBoxAdapter(
+                child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: SearchBar(
+                    searchFn: handleSearch,
+                    searchTextController: _searchTextController,
+                  ),
                 ),
               ),
-              TabBar(
+              SliverToBoxAdapter(
+                  child: TabBar(
                 controller: _tabController,
                 tabs: tabList
                     .map(
@@ -94,21 +96,20 @@ class _HomePageState extends State<HomePage>
                       ),
                     )
                     .toList(),
-              ),
-              SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: IndexedStack(
-                  index: selectedIndex,
-                  children: const [
-                    MovieSection(),
-                    TvSection(),
-                  ],
+              )),
+              SliverFillRemaining(
+                child: SingleChildScrollView(
+                  child: IndexedStack(
+                    index: selectedIndex,
+                    children: const [
+                      MovieSection(),
+                      TvSection(),
+                    ],
+                  ),
                 ),
-              )
+              ),
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
