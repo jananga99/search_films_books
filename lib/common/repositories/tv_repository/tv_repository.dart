@@ -16,7 +16,7 @@ class TvRepository {
     final Uri uri = Uri.https(_apiAuthorityUrl, _apiPathPrefixUrl, {
       'language': 'en',
       'query': searchText,
-      'include_adult': 'true',
+      'include_adult': 'false',
       'limit': '5'
     });
     final Map<String, String> headers = {

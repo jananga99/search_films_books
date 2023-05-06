@@ -58,7 +58,7 @@ class TvCard extends StatelessWidget {
                 children: [
                   Text(
                     _tv.name,
-                    maxLines: 3,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 14),
                     textAlign: TextAlign.center,

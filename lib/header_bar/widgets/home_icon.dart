@@ -9,7 +9,7 @@ class HomeIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void handleHomeClick() {
-      Navigator.of(context).pushReplacementNamed(RouteConstants.homeRoute);
+      Navigator.of(context).pushNamed(RouteConstants.homeRoute);
     }
 
     return TextButton(
