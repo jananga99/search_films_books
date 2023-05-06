@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/movies_bloc/movies_bloc.dart';
+import 'movie_cards/movie_card.dart';
 
 class MovieSection extends StatefulWidget {
   const MovieSection({Key? key}) : super(key: key);
@@ -18,10 +19,6 @@ class _MovieSectionState extends State<MovieSection> {
       buildWhen: (prev, current) => prev != current,
       builder: (context, state) {
         _moviesBloc = context.read<MoviesBloc>();
-        if (state.status == MoviesStatus.succeeded) {
-          print(state.movies);
-        }
-
         return Column(
           children: [
             Visibility(
@@ -36,7 +33,16 @@ class _MovieSectionState extends State<MovieSection> {
             ),
             Visibility(
                 visible: _moviesBloc.state.status == MoviesStatus.succeeded,
-                child: const Text("Success Movie")),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.4,
+                  padding: const EdgeInsets.all(16),
+                  children:
+                      state.movies.map((movie) => MovieCard(movie)).toList(),
+                )),
             Visibility(
                 visible: _moviesBloc.state.status == MoviesStatus.failed,
                 child: const Text("Failed Movie")),
@@ -46,3 +52,12 @@ class _MovieSectionState extends State<MovieSection> {
     );
   }
 }
+
+// ListView(
+// scrollDirection: Axis.vertical,
+// shrinkWrap: true,
+// physics: const NeverScrollableScrollPhysics(),
+// children: state.movies
+//     .map((Movie movie) => MovieCard(movie))
+// .toList(),
+// )

@@ -95,12 +95,15 @@ class _HomePageState extends State<HomePage>
                     )
                     .toList(),
               ),
-              IndexedStack(
-                index: selectedIndex,
-                children: const [
-                  MovieSection(),
-                  TvSection(),
-                ],
+              SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                child: IndexedStack(
+                  index: selectedIndex,
+                  children: const [
+                    MovieSection(),
+                    TvSection(),
+                  ],
+                ),
               )
             ],
           ),
