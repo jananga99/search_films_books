@@ -67,35 +67,43 @@ class _HomePageState extends State<HomePage>
     _moviesBloc = context.read<MoviesBloc>();
     _tvBloc = context.read<TvBloc>();
     return Scaffold(
-      appBar: const HeaderBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SearchBar(
-              searchFn: handleSearch,
-              searchTextController: _searchTextController,
-            ),
-            TabBar(
-              controller: _tabController,
-              tabs: tabList
-                  .map(
-                    (e) => Tab(
-                      child: Text(
-                        e,
-                        style: const TextStyle(color: Colors.black),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: SafeArea(
+        minimum: const EdgeInsets.symmetric(vertical: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const HeaderBar(),
+              Container(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: SearchBar(
+                  searchFn: handleSearch,
+                  searchTextController: _searchTextController,
+                ),
+              ),
+              TabBar(
+                controller: _tabController,
+                tabs: tabList
+                    .map(
+                      (e) => Tab(
+                        child: Text(
+                          e,
+                          style: const TextStyle(color: Colors.black),
+                        ),
                       ),
-                    ),
-                  )
-                  .toList(),
-            ),
-            IndexedStack(
-              index: selectedIndex,
-              children: const [
-                MovieSection(),
-                TvSection(),
-              ],
-            )
-          ],
+                    )
+                    .toList(),
+              ),
+              IndexedStack(
+                index: selectedIndex,
+                children: const [
+                  MovieSection(),
+                  TvSection(),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

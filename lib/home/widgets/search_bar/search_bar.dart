@@ -28,9 +28,18 @@ class _SearchBarState extends State<SearchBar> {
             key: _formKey,
             child: TextFormField(
               controller: widget.searchTextController,
-              decoration: const InputDecoration(
-                hintText: 'Search here...',
-              ),
+              decoration: InputDecoration(
+                  hintText: 'Search here.....',
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                      )),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                      ))),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a text to search';
@@ -44,8 +53,34 @@ class _SearchBarState extends State<SearchBar> {
           width: 10.0,
         ),
         ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.disabled)) {
+                  return const Color(0xff809fff);
+                  // return const Color(0xff4d79ff);
+                }
+                return const Color(0xff4d79ff);
+              },
+            ),
+            foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+              if (states.contains(MaterialState.disabled)) {
+                return Colors.black;
+              }
+              return Colors.black;
+            }),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+          ),
           onPressed: _isButtonDisabled() ? null : widget.searchFn,
-          child: const Text('Search '),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+            child: Text('Search '),
+          ),
         ),
       ],
     );
