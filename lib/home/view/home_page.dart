@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ftb/header_bar/view/header_bar.dart';
 import 'package:ftb/home/widgets/search_bar/search_bar.dart';
-import 'package:ftb/home/widgets/tv_section/tv_section.dart';
+import 'package:ftb/home/widgets/sections/tv_section/tv_section.dart';
 
 import '../bloc/movies_bloc/movies_bloc.dart';
 import '../bloc/tv_bloc/tv_bloc.dart';
-import '../widgets/movie_section/movie_section.dart';
+import '../widgets/sections/movie_section/movie_section.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

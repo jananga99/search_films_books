@@ -25,7 +25,7 @@ class MovieCard extends StatelessWidget {
     final String? releaseYear = getReleaseYear();
     return Card(
       elevation: 8,
-      color: Color(0xff66c2ff),
+      color: const Color(0xff66c2ff),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

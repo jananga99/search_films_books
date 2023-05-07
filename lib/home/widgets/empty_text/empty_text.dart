@@ -5,8 +5,7 @@ class EmptyText extends StatelessWidget {
   final SectionType sectionType;
   const EmptyText(this.sectionType, {Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
+  String getText() {
     final String text;
     if (sectionType == SectionType.movie) {
       text =
@@ -17,6 +16,11 @@ class EmptyText extends StatelessWidget {
     } else {
       text = '';
     }
+    return text;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: Column(
@@ -32,7 +36,7 @@ class EmptyText extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            text,
+            getText(),
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.grey[600],

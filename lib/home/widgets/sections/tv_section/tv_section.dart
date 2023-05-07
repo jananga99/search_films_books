@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ftb/home/widgets/tv_section/tv_cards/tv_card.dart';
+import 'package:ftb/home/widgets/cards/tv_card/tv_card.dart';
 
-import '../../../common/enums/enums.dart';
-import '../../bloc/tv_bloc/tv_bloc.dart';
-import '../empty_text/empty_text.dart';
-import '../error_text/error_text.dart';
-import '../idle_text/idle_text.dart';
-import '../loader/home_page_loader.dart';
+import '../../../../common/constants/route_constants.dart';
+import '../../../../common/enums/enums.dart';
+import '../../../../common/models/tv_models/tv.dart';
+import '../../../bloc/tv_bloc/tv_bloc.dart';
+import '../../empty_text/empty_text.dart';
+import '../../error_text/error_text.dart';
+import '../../idle_text/idle_text.dart';
+import '../../loader/home_page_loader.dart';
 
 class TvSection extends StatefulWidget {
   const TvSection({Key? key}) : super(key: key);
@@ -20,6 +22,10 @@ class _TvSectionState extends State<TvSection> {
   late TvBloc _tvBloc;
   @override
   Widget build(BuildContext context) {
+    void handleCardTap(Tv tv) {
+      Navigator.of(context).pushNamed(RouteConstants.tvRoute, arguments: tv);
+    }
+
     return BlocBuilder<TvBloc, TvState>(
       buildWhen: (prev, current) => prev != current,
       builder: (context, state) {
@@ -32,7 +38,7 @@ class _TvSectionState extends State<TvSection> {
             ),
             Visibility(
               visible: _tvBloc.state.status == TvStatus.loading,
-              child: const HomePageLoader(),
+              child: const HomePageLoader(SectionType.tv),
             ),
             Visibility(
               visible: _tvBloc.state.status == TvStatus.succeeded &&
@@ -50,7 +56,10 @@ class _TvSectionState extends State<TvSection> {
                   childAspectRatio: 0.43,
                   padding: const EdgeInsets.all(16),
                   physics: const NeverScrollableScrollPhysics(),
-                  children: state.tvs.map((tv) => TvCard(tv)).toList(),
+                  children: state.tvs
+                      .map((tv) => GestureDetector(
+                          onTap: () => handleCardTap(tv), child: TvCard(tv)))
+                      .toList(),
                 )),
             Visibility(
               visible: _tvBloc.state.status == TvStatus.failed,
