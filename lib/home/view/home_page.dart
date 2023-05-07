@@ -26,14 +26,20 @@ class _HomePageState extends State<HomePage>
   final TextEditingController _searchTextController = TextEditingController();
   bool isSearchTextEmpty = true;
 
-  void handleSearch() {
+  void handleSearch({int page = 1}) {
     if (_searchTextController.text.isNotEmpty) {
       if (_tabController.index == 0) {
-        _moviesBloc.add(MoviesStarted(searchText: _searchTextController.text));
+        _moviesBloc.add(
+            MoviesStarted(searchText: _searchTextController.text, page: page));
       } else if (_tabController.index == 1) {
-        _tvBloc.add(TvStarted(searchText: _searchTextController.text));
+        _tvBloc
+            .add(TvStarted(searchText: _searchTextController.text, page: page));
       }
     }
+  }
+
+  void handlePageSelected(int page) {
+    handleSearch(page: page);
   }
 
   @override
@@ -101,9 +107,13 @@ class _HomePageState extends State<HomePage>
                 child: SingleChildScrollView(
                   child: IndexedStack(
                     index: selectedIndex,
-                    children: const [
-                      MovieSection(),
-                      TvSection(),
+                    children: [
+                      MovieSection(
+                        onPageSelected: handlePageSelected,
+                      ),
+                      TvSection(
+                        onPageSelected: handlePageSelected,
+                      ),
                     ],
                   ),
                 ),

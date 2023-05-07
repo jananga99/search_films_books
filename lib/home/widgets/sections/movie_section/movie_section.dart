@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ftb/common/constants/route_constants.dart';
 import 'package:ftb/common/enums/enums.dart';
 import 'package:ftb/home/widgets/idle_text/idle_text.dart';
+import 'package:ftb/home/widgets/paging_row/paging_row.dart';
 
 import '../../../../common/models/movie_models/movie.dart';
 import '../../../bloc/movies_bloc/movies_bloc.dart';
@@ -12,7 +13,10 @@ import '../../error_text/error_text.dart';
 import '../../loader/home_page_loader.dart';
 
 class MovieSection extends StatefulWidget {
-  const MovieSection({Key? key}) : super(key: key);
+  const MovieSection({Key? key, required void Function(int) onPageSelected})
+      : _onPageSelected = onPageSelected,
+        super(key: key);
+  final void Function(int) _onPageSelected;
 
   @override
   State<MovieSection> createState() => _MovieSectionState();
@@ -50,24 +54,39 @@ class _MovieSectionState extends State<MovieSection> {
             Visibility(
                 visible: _moviesBloc.state.status == MoviesStatus.succeeded &&
                     state.movies.isNotEmpty,
-                child: GridView.count(
-                  shrinkWrap: true,
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 0.43,
-                  padding: const EdgeInsets.all(16),
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: state.movies
-                      .map((movie) => GestureDetector(
-                          onTap: () => handleCardTap(movie),
-                          child: MovieCard(movie)))
-                      .toList(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GridView.count(
+                      shrinkWrap: true,
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      childAspectRatio: 0.43,
+                      padding: const EdgeInsets.all(16),
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: state.movies
+                          .map((movie) => GestureDetector(
+                              onTap: () => handleCardTap(movie),
+                              child: MovieCard(movie)))
+                          .toList(),
+                    ),
+                    Visibility(
+                      visible: _moviesBloc.state.totalPages > 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: PagingRow(
+                          onPageSelected: widget._onPageSelected,
+                          sectionType: SectionType.movie,
+                        ),
+                      ),
+                    )
+                  ],
                 )),
             Visibility(
               visible: _moviesBloc.state.status == MoviesStatus.failed,
               child: const ErrorText(SectionType.movie),
-            )
+            ),
           ],
         );
       },

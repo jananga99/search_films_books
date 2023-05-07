@@ -13,8 +13,12 @@ class MovieRepository {
 
   Future<http.Response> fetchMovies(
       {required String searchText, required int page}) async {
-    final Uri uri = Uri.https(_apiAuthorityUrl, _apiPathPrefixUrl,
-        {'language': 'en', 'query': searchText, 'include_adult': 'false'});
+    final Uri uri = Uri.https(_apiAuthorityUrl, _apiPathPrefixUrl, {
+      'language': 'en',
+      'query': searchText,
+      'include_adult': 'false',
+      'page': page.toString()
+    });
     final Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $_bearerToken'
