@@ -43,20 +43,22 @@ class _SearchBarState extends State<SearchBar> {
           child: Form(
             key: _formKey,
             child: TextFormField(
+              cursorColor: Colors.black,
               focusNode: _searchFocusNode,
               controller: widget._searchTextController,
               decoration: InputDecoration(
-                  hintText: 'Search here.....',
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                      )),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                      ))),
+                hintText: 'Search here.....',
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(
+                      color: Colors.black,
+                    )),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(
+                      color: Colors.black,
+                    )),
+              ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a text to search';
