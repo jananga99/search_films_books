@@ -38,9 +38,10 @@ class TvCard extends StatelessWidget {
                     ? CachedNetworkImage(
                         imageUrl: imageUrl + _tv.posterPath!,
                         progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                                    value: downloadProgress.progress),
+                            (context, url, downloadProgress) => Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
+                        ),
                         errorWidget: (context, url, error) {
                           logger.e(error);
                           return const Icon(Icons.error);

@@ -30,6 +30,12 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
