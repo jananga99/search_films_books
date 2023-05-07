@@ -19,7 +19,11 @@ class TvService {
           await _tvRepository.fetchTvs(searchText: searchText, page: page);
       final FetchTvsResponse res =
           FetchTvsResponse.fromJson(jsonDecode(response.body));
-      return FetchTvsResult(success: true, tvs: res.results);
+      return FetchTvsResult(
+          success: true,
+          tvs: res.results,
+          page: res.page,
+          totalPages: res.totalPages);
     } catch (e) {
       logger.e('TvService fetchTvs Error: $e');
       return FetchTvsResult(success: false);

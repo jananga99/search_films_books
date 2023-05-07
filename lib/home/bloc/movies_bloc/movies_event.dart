@@ -15,10 +15,13 @@ class MoviesStarted extends MoviesEvent {
 }
 
 class MoviesFetched extends MoviesEvent {
-  const MoviesFetched(this.movies);
+  const MoviesFetched(
+      {required this.movies, required this.totalPages, required this.page});
   final List<Movie> movies;
+  final int totalPages;
+  final int page;
   @override
-  List<Object> get props => [movies];
+  List<Object> get props => [movies, totalPages, page];
 }
 
 class MoviesFailed extends MoviesEvent {

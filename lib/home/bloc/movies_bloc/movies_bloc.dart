@@ -27,7 +27,10 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     final FetchMoviesResult result = await _movieService.fetchMovies(
         searchText: event.searchText, page: event.page);
     if (result.success == true && result.movies != null) {
-      add(MoviesFetched(result.movies!));
+      add(MoviesFetched(
+          movies: result.movies!,
+          totalPages: result.totalPages!,
+          page: result.page!));
     } else {
       add(MoviesFailed(
           result.error == null ? Messages.movies.failed : result.error!));
@@ -35,7 +38,11 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   }
 
   void _onMoviesFetched(MoviesFetched event, Emitter<MoviesState> emit) {
-    emit(state.copyWith(movies: event.movies, status: MoviesStatus.succeeded));
+    emit(state.copyWith(
+        movies: event.movies,
+        status: MoviesStatus.succeeded,
+        totalPages: event.totalPages,
+        page: event.page));
   }
 
   void _onMoviesFailed(MoviesFailed event, Emitter<MoviesState> emit) {

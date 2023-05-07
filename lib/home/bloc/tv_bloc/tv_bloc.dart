@@ -25,14 +25,21 @@ class TvBloc extends Bloc<TvEvent, TvState> {
     final FetchTvsResult result = await _tvService.fetchTvs(
         searchText: event.searchText, page: event.page);
     if (result.success == true && result.tvs != null) {
-      add(TvFetched(result.tvs!));
+      add(TvFetched(
+          totalPages: result.totalPages!,
+          page: result.page!,
+          tvs: result.tvs!));
     } else {
       add(TvFailed(result.error == null ? Messages.tvs.failed : result.error!));
     }
   }
 
   void _onTvFetched(TvFetched event, Emitter<TvState> emit) {
-    emit(state.copyWith(tvs: event.tv, status: TvStatus.succeeded));
+    emit(state.copyWith(
+        tvs: event.tvs,
+        status: TvStatus.succeeded,
+        totalPages: event.totalPages,
+        page: event.page));
   }
 
   void _onTvFailed(TvFailed event, Emitter<TvState> emit) {

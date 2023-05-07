@@ -20,7 +20,11 @@ class MovieService {
           searchText: searchText, page: page);
       final FetchMoviesResponse res =
           FetchMoviesResponse.fromJson(jsonDecode(response.body));
-      return FetchMoviesResult(success: true, movies: res.results);
+      return FetchMoviesResult(
+          success: true,
+          movies: res.results,
+          totalPages: res.totalPages,
+          page: res.page);
     } catch (e) {
       logger.e('MovieService fetchMovies Error: $e');
       return FetchMoviesResult(success: false);

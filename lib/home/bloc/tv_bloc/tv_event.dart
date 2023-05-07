@@ -15,10 +15,13 @@ class TvStarted extends TvEvent {
 }
 
 class TvFetched extends TvEvent {
-  const TvFetched(this.tv);
-  final List<Tv> tv;
+  const TvFetched(
+      {required this.tvs, required this.page, required this.totalPages});
+  final List<Tv> tvs;
+  final int page;
+  final int totalPages;
   @override
-  List<Object> get props => [tv];
+  List<Object> get props => [tvs, page, totalPages];
 }
 
 class TvFailed extends TvEvent {

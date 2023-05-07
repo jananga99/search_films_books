@@ -17,7 +17,6 @@ class TvRepository {
       'language': 'en',
       'query': searchText,
       'include_adult': 'false',
-      'limit': '5'
     });
     final Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
