@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
-  final void Function() searchFn;
-  final TextEditingController searchTextController;
+  final void Function() _searchFn;
+  final TextEditingController _searchTextController;
 
   const SearchBar(
-      {Key? key, required this.searchFn, required this.searchTextController})
-      : super(key: key);
+      {Key? key,
+      required void Function() searchFn,
+      required TextEditingController searchTextController})
+      : _searchTextController = searchTextController,
+        _searchFn = searchFn,
+        super(key: key);
 
   @override
   State<SearchBar> createState() => _SearchBarState();
@@ -14,9 +18,15 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   final _formKey = GlobalKey<FormState>();
+  final FocusNode _searchFocusNode = FocusNode();
 
   bool _isButtonDisabled() {
-    return widget.searchTextController.text.isEmpty;
+    return widget._searchTextController.text.isEmpty;
+  }
+
+  void handleSearch() {
+    widget._searchFn();
+    _searchFocusNode.unfocus();
   }
 
   @override
@@ -27,7 +37,8 @@ class _SearchBarState extends State<SearchBar> {
           child: Form(
             key: _formKey,
             child: TextFormField(
-              controller: widget.searchTextController,
+              focusNode: _searchFocusNode,
+              controller: widget._searchTextController,
               decoration: InputDecoration(
                   hintText: 'Search here.....',
                   focusedBorder: OutlineInputBorder(
@@ -76,7 +87,7 @@ class _SearchBarState extends State<SearchBar> {
               ),
             ),
           ),
-          onPressed: _isButtonDisabled() ? null : widget.searchFn,
+          onPressed: _isButtonDisabled() ? null : widget._searchFn,
           child: const Padding(
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
             child: Text('Search '),
