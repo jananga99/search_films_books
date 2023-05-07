@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:ftb/about_us/view/about_us.dart';
 import 'package:ftb/common/repositories/tv_repository/tv_repository.dart';
 import 'package:ftb/common/services/tv_service/tv_service.dart';
 import 'package:ftb/home/bloc/tv_bloc/tv_bloc.dart';
@@ -53,6 +54,7 @@ class App extends StatelessWidget {
         initialRoute: RouteConstants.homeRoute,
         routes: {
           RouteConstants.homeRoute: (context) => const HomePage(),
+          RouteConstants.aboutUsRoute: (context) => const AboutUsPage(),
           RouteConstants.movieRoute: (context) {
             try {
               final Movie movie =

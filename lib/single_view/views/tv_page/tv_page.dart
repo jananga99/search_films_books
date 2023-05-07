@@ -6,6 +6,7 @@ import 'package:ftb/single_view/widget/poster_release/poster_release.dart';
 
 import '../../../common/models/tv_models/tv.dart';
 import '../../../header_bar/view/header_bar.dart';
+import '../../widget/poster/poster.dart';
 import '../../widget/poster_overview/poster_overview.dart';
 import '../../widget/poster_title/poster_title.dart';
 import '../../widget/vote_indicator/vote_indicator.dart';
@@ -28,7 +29,7 @@ class TvPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const HeaderBar(),
-              // Poster(_tv.posterPath),
+              Poster(_tv.posterPath),
               const SizedBox(height: 16),
               PosterTitle(_tv.name),
               Visibility(
