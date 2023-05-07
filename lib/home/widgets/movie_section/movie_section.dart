@@ -102,8 +102,9 @@ class _MovieSectionState extends State<MovieSection> {
                   crossAxisCount: 3,
                   mainAxisSpacing: 16,
                   crossAxisSpacing: 16,
-                  childAspectRatio: 0.4,
+                  childAspectRatio: 0.43,
                   padding: const EdgeInsets.all(16),
+                  physics: const NeverScrollableScrollPhysics(),
                   children:
                       state.movies.map((movie) => MovieCard(movie)).toList(),
                 )),

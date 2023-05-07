@@ -58,7 +58,7 @@ class MovieCard extends StatelessWidget {
                 children: [
                   Text(
                     _movie.title,
-                    maxLines: 3,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 14),
                     textAlign: TextAlign.center,

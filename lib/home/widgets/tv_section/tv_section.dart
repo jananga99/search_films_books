@@ -104,6 +104,7 @@ class _TvSectionState extends State<TvSection> {
                   crossAxisSpacing: 16,
                   childAspectRatio: 0.43,
                   padding: const EdgeInsets.all(16),
+                  physics: const NeverScrollableScrollPhysics(),
                   children: state.tvs.map((tv) => TvCard(tv)).toList(),
                 )),
             Visibility(
