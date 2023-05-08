@@ -46,7 +46,7 @@ class MoviePage extends StatelessWidget {
                         PosterLanguage(_movie.originalLanguage)
                       ],
                     ),
-                    VoteIndicator(_movie.voteAverage)
+                    Expanded(child: VoteIndicator(_movie.voteAverage))
                   ],
                 ),
               ),

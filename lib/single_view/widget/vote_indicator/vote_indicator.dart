@@ -9,22 +9,27 @@ class VoteIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CircularPercentIndicator(
-      radius: 35.0,
-      lineWidth: 6.0,
-      backgroundColor: Colors.grey,
-      percent: voteAverage != null ? voteAverage! / 10 : 100,
-      center: Text(
-        voteAverage != null ? voteAverage!.toStringAsPrecision(2) : 'N/A',
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final double circleRadius = constraints.maxWidth < 90 ? 24.0 : 36;
+      final double fontSize = constraints.maxWidth < 90 ? 15 : 20;
+      return CircularPercentIndicator(
+        radius: circleRadius,
+        lineWidth: 6.0,
+        backgroundColor: Colors.grey,
+        percent: voteAverage != null ? voteAverage! / 10 : 100,
+        center: Text(
+          voteAverage != null ? voteAverage!.toStringAsPrecision(2) : 'N/A',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-      progressColor: voteAverage != null
-          ? SingleViewHelper.getRatingColor(voteAverage!)
-          : Colors.grey,
-    );
+        progressColor: voteAverage != null
+            ? SingleViewHelper.getRatingColor(voteAverage!)
+            : Colors.grey,
+      );
+    });
   }
 }
