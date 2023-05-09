@@ -49,7 +49,7 @@ class TvPage extends StatelessWidget {
                         PosterLanguage(_tv.originalLanguage)
                       ],
                     ),
-                    VoteIndicator(_tv.voteAverage)
+                    Expanded(child: VoteIndicator(_tv.voteAverage))
                   ],
                 ),
               ),
