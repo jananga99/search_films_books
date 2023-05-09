@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage>
   final List<String> tabList = ["Movies", "Tv Series"];
   final TextEditingController _searchTextController = TextEditingController();
   bool isSearchTextEmpty = true;
+  final ScrollController _scrollController = ScrollController();
 
   void handleSearch({int page = 1}) {
     if (_searchTextController.text.isNotEmpty) {
@@ -65,7 +66,16 @@ class _HomePageState extends State<HomePage>
   void dispose() {
     _searchTextController.dispose();
     _tabController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  void handleScrollTop() {
+    _scrollController.animateTo(
+      0.0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
@@ -105,14 +115,35 @@ class _HomePageState extends State<HomePage>
               )),
               SliverFillRemaining(
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   child: IndexedStack(
                     index: selectedIndex,
                     children: [
-                      MovieSection(
-                        onPageSelected: handlePageSelected,
+                      BlocBuilder<MoviesBloc, MoviesState>(
+                        buildWhen: (prev, current) =>
+                            prev.status == MoviesStatus.succeeded &&
+                            current.status != MoviesStatus.succeeded,
+                        builder: (context, state) {
+                          if (state.status != MoviesStatus.succeeded) {
+                            handleScrollTop();
+                          }
+                          return MovieSection(
+                            onPageSelected: handlePageSelected,
+                          );
+                        },
                       ),
-                      TvSection(
-                        onPageSelected: handlePageSelected,
+                      BlocBuilder<TvBloc, TvState>(
+                        buildWhen: (prev, current) =>
+                            prev.status == TvStatus.succeeded &&
+                            current.status != TvStatus.succeeded,
+                        builder: (context, state) {
+                          if (state.status != TvStatus.succeeded) {
+                            handleScrollTop();
+                          }
+                          return TvSection(
+                            onPageSelected: handlePageSelected,
+                          );
+                        },
                       ),
                     ],
                   ),

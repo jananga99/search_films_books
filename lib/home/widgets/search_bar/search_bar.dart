@@ -77,7 +77,6 @@ class _SearchBarState extends State<SearchBar> {
               (Set<MaterialState> states) {
                 if (states.contains(MaterialState.disabled)) {
                   return const Color(0xff809fff);
-                  // return const Color(0xff4d79ff);
                 }
                 return const Color(0xff4d79ff);
               },
@@ -95,7 +94,7 @@ class _SearchBarState extends State<SearchBar> {
               ),
             ),
           ),
-          onPressed: _isButtonDisabled() ? null : widget._searchFn,
+          onPressed: _isButtonDisabled() ? null : handleSearch,
           child: const Padding(
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
             child: Text('Search '),
