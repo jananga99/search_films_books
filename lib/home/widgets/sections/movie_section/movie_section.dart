@@ -36,7 +36,6 @@ class _MovieSectionState extends State<MovieSection> {
       return BlocBuilder<MoviesBloc, MoviesState>(
         buildWhen: (prev, current) => prev != current,
         builder: (context, state) {
-          print(constraints.maxWidth);
           _moviesBloc = context.read<MoviesBloc>();
           return Column(
             children: [
