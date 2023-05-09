@@ -30,63 +30,65 @@ class _TvSectionState extends State<TvSection> {
       Navigator.of(context).pushNamed(RouteConstants.tvRoute, arguments: tv);
     }
 
-    return BlocBuilder<TvBloc, TvState>(
-      buildWhen: (prev, current) => prev != current,
-      builder: (context, state) {
-        _tvBloc = context.read<TvBloc>();
-        return Column(
-          children: [
-            Visibility(
-              visible: _tvBloc.state.status == TvStatus.idle,
-              child: const IdleText(SectionType.tv),
-            ),
-            Visibility(
-              visible: _tvBloc.state.status == TvStatus.loading,
-              child: const HomePageLoader(SectionType.tv),
-            ),
-            Visibility(
-              visible: _tvBloc.state.status == TvStatus.succeeded &&
-                  _tvBloc.state.tvs.isEmpty,
-              child: const EmptyText(SectionType.tv),
-            ),
-            Visibility(
+    return LayoutBuilder(builder: (context, constraints) {
+      return BlocBuilder<TvBloc, TvState>(
+        buildWhen: (prev, current) => prev != current,
+        builder: (context, state) {
+          _tvBloc = context.read<TvBloc>();
+          return Column(
+            children: [
+              Visibility(
+                visible: _tvBloc.state.status == TvStatus.idle,
+                child: const IdleText(SectionType.tv),
+              ),
+              Visibility(
+                visible: _tvBloc.state.status == TvStatus.loading,
+                child: const HomePageLoader(SectionType.tv),
+              ),
+              Visibility(
                 visible: _tvBloc.state.status == TvStatus.succeeded &&
-                    _tvBloc.state.tvs.isNotEmpty,
-                child: Column(
-                  children: [
-                    GridView.count(
-                      shrinkWrap: true,
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.43,
-                      padding: const EdgeInsets.all(16),
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: state.tvs
-                          .map((tv) => GestureDetector(
-                              onTap: () => handleCardTap(tv),
-                              child: TvCard(tv)))
-                          .toList(),
-                    ),
-                    Visibility(
-                      visible: _tvBloc.state.totalPages > 1,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: PagingRow(
-                          onPageSelected: widget._onPageSelected,
-                          sectionType: SectionType.tv,
-                        ),
+                    _tvBloc.state.tvs.isEmpty,
+                child: const EmptyText(SectionType.tv),
+              ),
+              Visibility(
+                  visible: _tvBloc.state.status == TvStatus.succeeded &&
+                      _tvBloc.state.tvs.isNotEmpty,
+                  child: Column(
+                    children: [
+                      GridView.count(
+                        shrinkWrap: true,
+                        crossAxisCount: constraints.maxWidth < 400 ? 2 : 3,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                        childAspectRatio: 0.43,
+                        padding: const EdgeInsets.all(16),
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: state.tvs
+                            .map((tv) => GestureDetector(
+                                onTap: () => handleCardTap(tv),
+                                child: TvCard(tv)))
+                            .toList(),
                       ),
-                    )
-                  ],
-                )),
-            Visibility(
-              visible: _tvBloc.state.status == TvStatus.failed,
-              child: const ErrorText(SectionType.tv),
-            )
-          ],
-        );
-      },
-    );
+                      Visibility(
+                        visible: _tvBloc.state.totalPages > 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: PagingRow(
+                            onPageSelected: widget._onPageSelected,
+                            sectionType: SectionType.tv,
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
+              Visibility(
+                visible: _tvBloc.state.status == TvStatus.failed,
+                child: const ErrorText(SectionType.tv),
+              )
+            ],
+          );
+        },
+      );
+    });
   }
 }

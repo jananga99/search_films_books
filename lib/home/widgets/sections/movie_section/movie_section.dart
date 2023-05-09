@@ -32,64 +32,67 @@ class _MovieSectionState extends State<MovieSection> {
           .pushNamed(RouteConstants.movieRoute, arguments: movie);
     }
 
-    return BlocBuilder<MoviesBloc, MoviesState>(
-      buildWhen: (prev, current) => prev != current,
-      builder: (context, state) {
-        _moviesBloc = context.read<MoviesBloc>();
-        return Column(
-          children: [
-            Visibility(
-              visible: _moviesBloc.state.status == MoviesStatus.idle,
-              child: const IdleText(SectionType.movie),
-            ),
-            Visibility(
-              visible: _moviesBloc.state.status == MoviesStatus.loading,
-              child: const HomePageLoader(SectionType.movie),
-            ),
-            Visibility(
-              visible: _moviesBloc.state.status == MoviesStatus.succeeded &&
-                  _moviesBloc.state.movies.isEmpty,
-              child: const EmptyText(SectionType.movie),
-            ),
-            Visibility(
+    return LayoutBuilder(builder: (context, constraints) {
+      return BlocBuilder<MoviesBloc, MoviesState>(
+        buildWhen: (prev, current) => prev != current,
+        builder: (context, state) {
+          print(constraints.maxWidth);
+          _moviesBloc = context.read<MoviesBloc>();
+          return Column(
+            children: [
+              Visibility(
+                visible: _moviesBloc.state.status == MoviesStatus.idle,
+                child: const IdleText(SectionType.movie),
+              ),
+              Visibility(
+                visible: _moviesBloc.state.status == MoviesStatus.loading,
+                child: const HomePageLoader(SectionType.movie),
+              ),
+              Visibility(
                 visible: _moviesBloc.state.status == MoviesStatus.succeeded &&
-                    state.movies.isNotEmpty,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GridView.count(
-                      shrinkWrap: true,
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.43,
-                      padding: const EdgeInsets.all(16),
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: state.movies
-                          .map((movie) => GestureDetector(
-                              onTap: () => handleCardTap(movie),
-                              child: MovieCard(movie)))
-                          .toList(),
-                    ),
-                    Visibility(
-                      visible: _moviesBloc.state.totalPages > 1,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: PagingRow(
-                          onPageSelected: widget._onPageSelected,
-                          sectionType: SectionType.movie,
-                        ),
+                    _moviesBloc.state.movies.isEmpty,
+                child: const EmptyText(SectionType.movie),
+              ),
+              Visibility(
+                  visible: _moviesBloc.state.status == MoviesStatus.succeeded &&
+                      state.movies.isNotEmpty,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      GridView.count(
+                        shrinkWrap: true,
+                        crossAxisCount: constraints.maxWidth < 400 ? 2 : 3,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                        childAspectRatio: 0.43,
+                        padding: const EdgeInsets.all(16),
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: state.movies
+                            .map((movie) => GestureDetector(
+                                onTap: () => handleCardTap(movie),
+                                child: MovieCard(movie)))
+                            .toList(),
                       ),
-                    )
-                  ],
-                )),
-            Visibility(
-              visible: _moviesBloc.state.status == MoviesStatus.failed,
-              child: const ErrorText(SectionType.movie),
-            ),
-          ],
-        );
-      },
-    );
+                      Visibility(
+                        visible: _moviesBloc.state.totalPages > 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: PagingRow(
+                            onPageSelected: widget._onPageSelected,
+                            sectionType: SectionType.movie,
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
+              Visibility(
+                visible: _moviesBloc.state.status == MoviesStatus.failed,
+                child: const ErrorText(SectionType.movie),
+              ),
+            ],
+          );
+        },
+      );
+    });
   }
 }
