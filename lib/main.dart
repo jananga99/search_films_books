@@ -33,7 +33,7 @@ Future<void> main() async {
           create: (BuildContext context) => MoviesBloc(movieService)),
       BlocProvider<TvBloc>(create: (BuildContext context) => TvBloc(tvService)),
     ],
-    child: DevicePreview(enabled: true, builder: (context) => const App()),
+    child: DevicePreview(enabled: false, builder: (context) => const App()),
   ));
 }
 
