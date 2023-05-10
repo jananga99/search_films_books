@@ -4,8 +4,10 @@ import 'package:ftb/header_bar/view/header_bar.dart';
 import 'package:ftb/home/widgets/search_bar/search_bar.dart';
 import 'package:ftb/home/widgets/sections/tv_section/tv_section.dart';
 
+import '../bloc/books_bloc/books_bloc.dart';
 import '../bloc/movies_bloc/movies_bloc.dart';
 import '../bloc/tv_bloc/tv_bloc.dart';
+import '../widgets/sections/book_section/book_section.dart';
 import '../widgets/sections/movie_section/movie_section.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,10 +21,11 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late MoviesBloc _moviesBloc;
   late TvBloc _tvBloc;
+  late BooksBloc _booksBloc;
 
   int selectedIndex = 0;
   late TabController _tabController;
-  final List<String> tabList = ["Movies", "Tv Series"];
+  final List<String> tabList = ["Movies", "Tv Series", "Books"];
   final TextEditingController _searchTextController = TextEditingController();
   bool isSearchTextEmpty = true;
   final ScrollController _scrollController = ScrollController();
@@ -35,6 +38,9 @@ class _HomePageState extends State<HomePage>
       } else if (_tabController.index == 1) {
         _tvBloc
             .add(TvStarted(searchText: _searchTextController.text, page: page));
+      } else if (_tabController.index == 2) {
+        _booksBloc.add(
+            BooksStarted(searchText: _searchTextController.text, page: page));
       }
     }
   }
@@ -82,6 +88,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     _moviesBloc = context.read<MoviesBloc>();
     _tvBloc = context.read<TvBloc>();
+    _booksBloc = context.read<BooksBloc>();
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
@@ -141,6 +148,19 @@ class _HomePageState extends State<HomePage>
                             handleScrollTop();
                           }
                           return TvSection(
+                            onPageSelected: handlePageSelected,
+                          );
+                        },
+                      ),
+                      BlocBuilder<BooksBloc, BooksState>(
+                        buildWhen: (prev, current) =>
+                            prev.status == BooksStatus.succeeded &&
+                            current.status != BooksStatus.succeeded,
+                        builder: (context, state) {
+                          if (state.status != BooksStatus.succeeded) {
+                            handleScrollTop();
+                          }
+                          return BookSection(
                             onPageSelected: handlePageSelected,
                           );
                         },

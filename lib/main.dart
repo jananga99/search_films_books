@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ftb/about_us/view/about_us.dart';
 import 'package:ftb/common/repositories/tv_repository/tv_repository.dart';
 import 'package:ftb/common/services/tv_service/tv_service.dart';
+import 'package:ftb/home/bloc/books_bloc/books_bloc.dart';
 import 'package:ftb/home/bloc/tv_bloc/tv_bloc.dart';
 import 'package:ftb/single_view/views/movie_page/movie_page.dart';
 import 'package:ftb/single_view/views/tv_page/tv_page.dart';
@@ -13,7 +14,9 @@ import 'common/constants/route_constants.dart';
 import 'common/logger/logger.dart';
 import 'common/models/movie_models/movie.dart';
 import 'common/models/tv_models/tv.dart';
+import 'common/repositories/book_repository/book_repository.dart';
 import 'common/repositories/movie_repository/movie_repository.dart';
+import 'common/services/book_service/book_service.dart';
 import 'common/services/movie_service/movie_service.dart';
 import 'home/bloc/movies_bloc/movies_bloc.dart';
 import 'home/view/home_page.dart';
@@ -23,17 +26,21 @@ Future<void> main() async {
 
   final MovieRepository movieRepository = MovieRepository();
   final TvRepository tvRepository = TvRepository();
+  final BookRepository bookRepository = BookRepository();
 
   final MovieService movieService = MovieService(movieRepository);
   final TvService tvService = TvService(tvRepository);
+  final BookService bookService = BookService(bookRepository);
 
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<MoviesBloc>(
           create: (BuildContext context) => MoviesBloc(movieService)),
       BlocProvider<TvBloc>(create: (BuildContext context) => TvBloc(tvService)),
+      BlocProvider<BooksBloc>(
+          create: (BuildContext context) => BooksBloc(bookService)),
     ],
-    child: DevicePreview(enabled: false, builder: (context) => const App()),
+    child: DevicePreview(enabled: true, builder: (context) => const App()),
   ));
 }
 

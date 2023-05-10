@@ -1,1 +1,1 @@
-enum SectionType { movie, tv }
+enum SectionType { movie, tv, book }
