@@ -20,6 +20,9 @@ class BookService {
           await _bookRepository.fetchBooks(searchText: searchText, page: page);
       final FetchBooksResponse res =
           FetchBooksResponse.fromJson(jsonDecode(response.body));
+      print(res.totalItems);
+      print(DataGrid.itemsPerPage);
+      print(res.totalItems ~/ DataGrid.itemsPerPage + 1);
       return FetchBooksResult(
           success: true,
           books: res.items,

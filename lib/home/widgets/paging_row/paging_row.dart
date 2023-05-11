@@ -235,6 +235,7 @@ class PagingRow extends StatelessWidget {
                 number: state.page,
                 selected: true,
               ));
+              print(constraints.maxWidth);
               if (constraints.maxWidth > 370 &&
                   state.page != state.totalPages) {
                 pageButtons.add(PageNumber(
@@ -254,17 +255,6 @@ class PagingRow extends StatelessWidget {
                 onPressed: state.page == state.totalPages
                     ? null
                     : () => _onPageSelected(state.page + 1),
-              ),
-            );
-            pageButtons.add(
-              IconButton(
-                icon: const Icon(Icons.last_page),
-                color: state.page == state.totalPages
-                    ? disabledColor
-                    : enabledColor,
-                onPressed: state.page == state.totalPages
-                    ? null
-                    : () => _onPageSelected(state.totalPages),
               ),
             );
             return Row(

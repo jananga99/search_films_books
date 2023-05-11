@@ -9,7 +9,7 @@ class PosterPublisher extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Text(
-        "Publisher            :    ${publisher == null || publisher!.isEmpty ? 'Unknown' : publisher!}",
+        "Published by ${publisher == null || publisher!.isEmpty ? 'Unknown' : publisher!}",
         style: const TextStyle(fontSize: 20),
       ),
     );

@@ -6,9 +6,11 @@ class FetchBooksResponse {
   final num totalItems;
   factory FetchBooksResponse.fromJson(Map<String, dynamic> json) {
     return FetchBooksResponse(
-      totalItems: json['totalItems'],
-      items: List<Book>.from(
-          json['items'].map((e) => Book.fromJson(e['volumeInfo']))),
+      totalItems: json['totalItems'] ?? 0,
+      items: json['items'] == null
+          ? []
+          : List<Book>.from(
+              json['items'].map((e) => Book.fromJson(e['volumeInfo']))),
     );
   }
 }
