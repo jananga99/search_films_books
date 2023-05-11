@@ -21,12 +21,16 @@ class Profile extends StatelessWidget {
       itemBuilder: (context) => [
         const PopupMenuItem(
           value: 1,
-          height: 10,
+          height: 15,
           child: Text('About Us'),
         ),
       ],
       offset: const Offset(0, 40),
-      color: const Color(0xff00ace6),
+      color: const Color(0xff809fff),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.all(4.0),
       elevation: 2,
       onSelected: (value) {
         if (value == 1) {

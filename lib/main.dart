@@ -42,7 +42,7 @@ Future<void> main() async {
       BlocProvider<BooksBloc>(
           create: (BuildContext context) => BooksBloc(bookService)),
     ],
-    child: DevicePreview(enabled: true, builder: (context) => const App()),
+    child: DevicePreview(enabled: false, builder: (context) => const App()),
   ));
 }
 

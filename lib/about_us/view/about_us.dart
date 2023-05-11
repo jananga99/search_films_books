@@ -61,6 +61,18 @@ class AboutUsPage extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
               const Text(
+                'Google Books API Attribution',
+                style: subTitleStyle,
+              ),
+              const SizedBox(height: 16.0),
+              const Text(
+                "This app utilizes the Google Books API to provide book search functionality and access book-related information. The integration with the Google Books API allows users to search for books, view book details, and retrieve relevant data. We would like to acknowledge and thank Google for providing the Google Books API, which enhances the user experience of our app. We have also included a notice to inform our users that this app uses the Google Books API, but is not endorsed or certified by Google Books.",
+                style: bodyStyle,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              const Text(
                 'TMDB (The Movies Database) API Attribution',
                 style: subTitleStyle,
               ),
