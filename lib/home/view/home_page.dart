@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ftb/header_bar/view/header_bar.dart';
 import 'package:ftb/home/widgets/search_bar/search_bar.dart';
@@ -91,6 +92,12 @@ class _HomePageState extends State<HomePage>
     _moviesBloc = context.read<MoviesBloc>();
     _tvBloc = context.read<TvBloc>();
     _booksBloc = context.read<BooksBloc>();
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: Theme.of(context).colorScheme.background,
+        statusBarColor: Colors.transparent,
+      ),
+    );
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
