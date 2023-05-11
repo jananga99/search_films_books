@@ -7,11 +7,13 @@ import 'package:ftb/common/repositories/tv_repository/tv_repository.dart';
 import 'package:ftb/common/services/tv_service/tv_service.dart';
 import 'package:ftb/home/bloc/books_bloc/books_bloc.dart';
 import 'package:ftb/home/bloc/tv_bloc/tv_bloc.dart';
+import 'package:ftb/single_view/views/book_page/book_page.dart';
 import 'package:ftb/single_view/views/movie_page/movie_page.dart';
 import 'package:ftb/single_view/views/tv_page/tv_page.dart';
 
 import 'common/constants/route_constants.dart';
 import 'common/logger/logger.dart';
+import 'common/models/book_models/book.dart';
 import 'common/models/movie_models/movie.dart';
 import 'common/models/tv_models/tv.dart';
 import 'common/repositories/book_repository/book_repository.dart';
@@ -74,6 +76,16 @@ class App extends StatelessWidget {
             try {
               final Tv tv = ModalRoute.of(context)!.settings.arguments as Tv;
               return TvPage(tv: tv);
+            } catch (err) {
+              logger.e(err);
+              return const HomePage();
+            }
+          },
+          RouteConstants.bookRoute: (context) {
+            try {
+              final Book book =
+                  ModalRoute.of(context)!.settings.arguments as Book;
+              return BookPage(book: book);
             } catch (err) {
               logger.e(err);
               return const HomePage();

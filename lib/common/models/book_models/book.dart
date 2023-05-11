@@ -20,7 +20,6 @@ class Book {
       required this.language});
 
   factory Book.fromJson(Map<String, dynamic> json) {
-    print(json['authors']);
     return Book(
       authors: json['authors'] == null ? [] : json['authors'].cast<String>(),
       title: json['title'],
@@ -29,7 +28,7 @@ class Book {
       description: json['description'],
       imageUrl: json['imageLinks']?['thumbnail'],
       pageCount: json['pageCount'],
-      averageRating: json['averageCount'],
+      averageRating: json['averageRating']?.toDouble(),
       language: json['language'],
     );
   }

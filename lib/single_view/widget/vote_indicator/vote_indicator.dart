@@ -4,11 +4,17 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../common/helpers/single_view_helpers.dart';
 
 class VoteIndicator extends StatelessWidget {
-  final double? voteAverage;
-  const VoteIndicator(this.voteAverage, {Key? key}) : super(key: key);
+  final double? _voteAverage;
+  final double _total;
+  const VoteIndicator(
+      {Key? key, required double? voteAverage, required double total})
+      : _voteAverage = voteAverage,
+        _total = total,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ;
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
       final double circleRadius = constraints.maxWidth < 90 ? 24.0 : 36;
@@ -17,17 +23,18 @@ class VoteIndicator extends StatelessWidget {
         radius: circleRadius,
         lineWidth: 6.0,
         backgroundColor: Colors.grey,
-        percent: voteAverage != null ? voteAverage! / 10 : 100,
+        percent: _voteAverage != null ? _voteAverage! / _total : 0,
         center: Text(
-          voteAverage != null ? voteAverage!.toStringAsPrecision(2) : 'N/A',
+          _voteAverage != null ? _voteAverage!.toStringAsPrecision(2) : 'N/A',
           style: TextStyle(
             color: Colors.black,
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
           ),
         ),
-        progressColor: voteAverage != null
-            ? SingleViewHelper.getRatingColor(voteAverage!)
+        progressColor: _voteAverage != null
+            ? SingleViewHelper.getRatingColor(
+                rating: _voteAverage!, total: _total)
             : Colors.grey,
       );
     });

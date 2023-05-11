@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:ftb/header_bar/view/header_bar.dart';
-import 'package:ftb/single_view/widget/poster/poster.dart';
-import 'package:ftb/single_view/widget/poster_overview/poster_overview.dart';
-import 'package:ftb/single_view/widget/poster_release/poster_release.dart';
-import 'package:ftb/single_view/widget/vote_indicator/vote_indicator.dart';
 
-import '../../../common/models/movie_models/movie.dart';
-import '../../widget/original_title/original_title.dart';
+import '../../../common/models/book_models/book.dart';
+import '../../../header_bar/view/header_bar.dart';
+import '../../widget/poster/poster.dart';
+import '../../widget/poster_authors/poster_authors.dart';
 import '../../widget/poster_language/poster_language.dart';
+import '../../widget/poster_overview/poster_overview.dart';
+import '../../widget/poster_publish_date/poster_publish_date.dart';
+import '../../widget/poster_publisher/poster_publisher.dart';
 import '../../widget/poster_title/poster_title.dart';
+import '../../widget/vote_indicator/vote_indicator.dart';
 
-class MoviePage extends StatelessWidget {
-  final Movie _movie;
+class BookPage extends StatelessWidget {
+  final Book _book;
   final String imageUrl = dotenv.env['IMAGE_URL']!;
-  MoviePage({super.key, required Movie movie}) : _movie = movie;
+  BookPage({Key? key, required Book book})
+      : _book = book,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +31,17 @@ class MoviePage extends StatelessWidget {
             children: [
               const HeaderBar(),
               Visibility(
-                  visible: _movie.posterPath != null,
-                  child: Poster(imageUrl + _movie.posterPath!)),
+                  visible: _book.imageUrl != null,
+                  child: Poster(_book.imageUrl!)),
               const SizedBox(height: 16),
-              PosterTitle(_movie.title),
+              PosterTitle(_book.title),
               Visibility(
-                visible: _movie.title != _movie.originalTitle,
-                child: OriginalTitle(_movie.originalTitle),
-              ),
+                  visible: _book.authors.isNotEmpty,
+                  child: Row(
+                    children: [
+                      PosterAuthors(_book.authors),
+                    ],
+                  )),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -45,17 +51,20 @@ class MoviePage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        PosterRelease(_movie.releaseDate),
-                        PosterLanguage(_movie.originalLanguage)
+                        PosterPublisher(_book.publisher),
+                        PosterLanguage(_book.language),
+                        PosterPublishDate(_book.publishedDate)
                       ],
                     ),
                     Expanded(
                         child: VoteIndicator(
-                            voteAverage: _movie.voteAverage, total: 10))
+                      voteAverage: _book.averageRating,
+                      total: 5,
+                    ))
                   ],
                 ),
               ),
-              PosterOverview(_movie.overview)
+              PosterOverview(_book.description ?? '')
             ],
           ),
         ),

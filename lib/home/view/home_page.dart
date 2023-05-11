@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ftb/header_bar/view/header_bar.dart';
 import 'package:ftb/home/widgets/search_bar/search_bar.dart';
-import 'package:ftb/home/widgets/sections/tv_section/tv_section.dart';
 
 import '../bloc/books_bloc/books_bloc.dart';
 import '../bloc/movies_bloc/movies_bloc.dart';
 import '../bloc/tv_bloc/tv_bloc.dart';
 import '../widgets/sections/book_section/book_section.dart';
 import '../widgets/sections/movie_section/movie_section.dart';
+import '../widgets/sections/tv_section/tv_section.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -77,11 +77,13 @@ class _HomePageState extends State<HomePage>
   }
 
   void handleScrollTop() {
-    _scrollController.animateTo(
-      0.0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
+    if (_scrollController.offset != 0) {
+      _scrollController.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override

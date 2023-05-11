@@ -20,8 +20,6 @@ class BookService {
           await _bookRepository.fetchBooks(searchText: searchText, page: page);
       final FetchBooksResponse res =
           FetchBooksResponse.fromJson(jsonDecode(response.body));
-      print("Converted red");
-      print(res);
       return FetchBooksResult(
           success: true,
           books: res.items,

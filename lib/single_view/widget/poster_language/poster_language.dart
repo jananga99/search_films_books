@@ -11,7 +11,7 @@ class PosterLanguage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Text(
-        "Language        :    ${language == null || language!.isEmpty ? 'Unknown' : SingleViewHelper.getLanguageName(language!)}",
+        "Language           :    ${language == null || language!.isEmpty ? 'Unknown' : SingleViewHelper.getLanguageName(language!)}",
         style: const TextStyle(fontSize: 20),
       ),
     );

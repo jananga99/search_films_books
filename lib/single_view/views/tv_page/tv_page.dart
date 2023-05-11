@@ -29,7 +29,9 @@ class TvPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const HeaderBar(),
-              Poster(_tv.posterPath),
+              Visibility(
+                  visible: _tv.posterPath != null,
+                  child: Poster(imageUrl + _tv.posterPath!)),
               const SizedBox(height: 16),
               PosterTitle(_tv.name),
               Visibility(
@@ -49,7 +51,11 @@ class TvPage extends StatelessWidget {
                         PosterLanguage(_tv.originalLanguage)
                       ],
                     ),
-                    Expanded(child: VoteIndicator(_tv.voteAverage))
+                    Expanded(
+                        child: VoteIndicator(
+                      voteAverage: _tv.voteAverage,
+                      total: 10,
+                    ))
                   ],
                 ),
               ),

@@ -11,8 +11,6 @@ class BookCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("In the card");
-    print(_book.imageUrl);
     return Card(
       elevation: 8,
       color: const Color(0xff66c2ff),
