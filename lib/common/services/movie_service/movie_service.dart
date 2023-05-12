@@ -4,6 +4,7 @@ import 'package:ftb/common/models/movie_models/fetch_movies_response.dart';
 import 'package:ftb/common/models/movie_models/fetch_movies_result.dart';
 import 'package:http/http.dart' as http;
 
+import '../../constants/message_constants.dart';
 import '../../logger/logger.dart';
 import '../../repositories/movie_repository/movie_repository.dart';
 
@@ -26,8 +27,14 @@ class MovieService {
           totalPages: res.totalPages,
           page: res.page);
     } catch (e) {
-      logger.e('MovieService fetchMovies Error: $e');
-      return FetchMoviesResult(success: false);
+      String? error;
+      if (e.toString().startsWith(Messages.connectionError)) {
+        error = Messages.connectionError;
+      } else {
+        logger.e('MovieService fetchMovies Error: $e');
+      }
+      return FetchMoviesResult(
+          success: false, error: error ?? Messages.movies.failed);
     }
   }
 }

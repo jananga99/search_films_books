@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../common/constants/message_constants.dart';
 import '../../../../common/constants/route_constants.dart';
 import '../../../../common/enums/enums.dart';
 import '../../../../common/models/book_models/book.dart';
@@ -10,6 +11,7 @@ import '../../empty_text/empty_text.dart';
 import '../../error_text/error_text.dart';
 import '../../idle_text/idle_text.dart';
 import '../../loader/home_page_loader.dart';
+import '../../no_connection_text/no_connection.dart';
 import '../../paging_row/paging_row.dart';
 
 class BookSection extends StatefulWidget {
@@ -86,7 +88,9 @@ class _BookSectionState extends State<BookSection> {
                   )),
               Visibility(
                 visible: _booksBloc.state.status == BooksStatus.failed,
-                child: const ErrorText(SectionType.book),
+                child: _booksBloc.state.error == Messages.connectionError
+                    ? const NoConnectionText()
+                    : const ErrorText(SectionType.book),
               ),
             ],
           );

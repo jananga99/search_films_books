@@ -2,6 +2,7 @@ class Messages {
   static final movies = MovieMessages();
   static final tvs = TvMessages();
   static final books = BooksMessages();
+  static const String connectionError = "Failed host lookup";
 }
 
 class MovieMessages {

@@ -4,6 +4,7 @@ import 'package:ftb/common/constants/ui_constants.dart';
 import 'package:ftb/common/models/book_models/fetch_books_result.dart';
 import 'package:http/http.dart' as http;
 
+import '../../constants/message_constants.dart';
 import '../../logger/logger.dart';
 import '../../models/book_models/fetch_books_response.dart';
 import '../../repositories/book_repository/book_repository.dart';
@@ -20,17 +21,20 @@ class BookService {
           await _bookRepository.fetchBooks(searchText: searchText, page: page);
       final FetchBooksResponse res =
           FetchBooksResponse.fromJson(jsonDecode(response.body));
-      print(res.totalItems);
-      print(DataGrid.itemsPerPage);
-      print(res.totalItems ~/ DataGrid.itemsPerPage + 1);
       return FetchBooksResult(
           success: true,
           books: res.items,
           totalPages: res.totalItems ~/ DataGrid.itemsPerPage + 1,
           page: page);
     } catch (e) {
-      logger.e('BookService fetchBooks Error: $e');
-      return FetchBooksResult(success: false);
+      String? error;
+      if (e.toString().startsWith(Messages.connectionError)) {
+        error = Messages.connectionError;
+      } else {
+        logger.e('BookService fetchBooks Error: $e');
+      }
+      return FetchBooksResult(
+          success: false, error: error ?? Messages.books.failed);
     }
   }
 }

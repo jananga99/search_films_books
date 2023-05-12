@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../../constants/message_constants.dart';
 import '../../logger/logger.dart';
 import '../../models/tv_models/fetch_tvs_response.dart';
 import '../../models/tv_models/fetch_tvs_result.dart';
@@ -25,8 +26,14 @@ class TvService {
           page: res.page,
           totalPages: res.totalPages);
     } catch (e) {
-      logger.e('TvService fetchTvs Error: $e');
-      return FetchTvsResult(success: false);
+      String? error;
+      if (e.toString().startsWith(Messages.connectionError)) {
+        error = Messages.connectionError;
+      } else {
+        logger.e('TvService fetchBooks Error: $e');
+      }
+      return FetchTvsResult(
+          success: false, error: error ?? Messages.tvs.failed);
     }
   }
 }
