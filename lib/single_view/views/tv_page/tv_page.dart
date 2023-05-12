@@ -36,9 +36,9 @@ class TvPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const HeaderBar(),
-              Visibility(
-                  visible: _tv.posterPath != null,
-                  child: Poster(imageUrl + _tv.posterPath!)),
+              _tv.posterPath == null
+                  ? const SizedBox()
+                  : Poster(imageUrl + _tv.posterPath!),
               const SizedBox(height: 16),
               PosterTitle(_tv.name),
               Visibility(

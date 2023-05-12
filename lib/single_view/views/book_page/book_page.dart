@@ -36,9 +36,9 @@ class BookPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const HeaderBar(),
-              Visibility(
-                  visible: _book.imageUrl != null,
-                  child: Poster(_book.imageUrl ?? '')),
+              _book.imageUrl == null
+                  ? const SizedBox()
+                  : Poster(_book.imageUrl ?? ''),
               const SizedBox(height: 16),
               PosterTitle(_book.title),
               Visibility(

@@ -34,9 +34,9 @@ class MoviePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const HeaderBar(),
-              Visibility(
-                  visible: _movie.posterPath != null,
-                  child: Poster(imageUrl + _movie.posterPath!)),
+              _movie.posterPath == null
+                  ? const SizedBox()
+                  : Poster(imageUrl + _movie.posterPath!),
               const SizedBox(height: 16),
               PosterTitle(_movie.title),
               Visibility(
