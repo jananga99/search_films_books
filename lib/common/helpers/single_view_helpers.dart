@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 import '../constants/language_constants.dart';
 
 class SingleViewHelper {
-  static Color getRatingColor(double? rating) {
-    if (rating == null) {
-      return Colors.grey;
-    }
+  static Color getRatingColor({required double rating, required double total}) {
     final Color color;
-    if (rating >= 7.5) {
+    final double percent = rating / total * 100;
+    if (percent >= 75) {
       color = Colors.green;
-    } else if (rating >= 5.5) {
+    } else if (percent >= 55) {
       color = Colors.yellow;
-    } else if (rating >= 3) {
+    } else if (percent >= 30) {
       color = Colors.deepOrange;
     } else {
       color = Colors.red;

@@ -13,6 +13,9 @@ class EmptyText extends StatelessWidget {
     } else if (sectionType == SectionType.tv) {
       text =
           "Hmm, seems like we couldn't find any tv series with that name. Don't worry, try again with a different name, and let's make some tv series magic happen.";
+    } else if (sectionType == SectionType.book) {
+      text =
+          "Hmm, seems like we couldn't find any book with that name. Don't worry, try again with a different name, and let's make some book magic happen.";
     } else {
       text = '';
     }

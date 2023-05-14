@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ftb/common/constants/route_constants.dart';
 import 'package:ftb/common/enums/enums.dart';
 import 'package:ftb/home/widgets/idle_text/idle_text.dart';
+import 'package:ftb/home/widgets/no_connection_text/no_connection.dart';
 import 'package:ftb/home/widgets/paging_row/paging_row.dart';
 
+import '../../../../common/constants/message_constants.dart';
 import '../../../../common/models/movie_models/movie.dart';
 import '../../../bloc/movies_bloc/movies_bloc.dart';
 import '../../cards/movie_card/movie_card.dart';
@@ -86,7 +88,9 @@ class _MovieSectionState extends State<MovieSection> {
                   )),
               Visibility(
                 visible: _moviesBloc.state.status == MoviesStatus.failed,
-                child: const ErrorText(SectionType.movie),
+                child: _moviesBloc.state.error == Messages.connectionError
+                    ? const NoConnectionText()
+                    : const ErrorText(SectionType.movie),
               ),
             ],
           );

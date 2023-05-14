@@ -14,6 +14,9 @@ class IdleText extends StatelessWidget {
     } else if (sectionType == SectionType.tv) {
       text =
           'The search party is just getting started. Tv Series are waiting for you to discover them! join in';
+    } else if (sectionType == SectionType.book) {
+      text =
+          'The search party is just getting started. Books are waiting for you to discover them! join in';
     } else {
       text = '';
     }

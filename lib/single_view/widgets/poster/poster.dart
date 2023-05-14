@@ -1,20 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../../../common/logger/logger.dart';
 
 class Poster extends StatelessWidget {
-  final String? posterPath;
+  final String posterPath;
   const Poster(this.posterPath, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final String imageUrl = dotenv.env['IMAGE_URL']!;
     return AspectRatio(
       aspectRatio: 2 / 3,
       child: CachedNetworkImage(
-        imageUrl: imageUrl + posterPath!,
+        imageUrl: posterPath,
         progressIndicatorBuilder: (context, url, downloadProgress) => Center(
           child: CircularProgressIndicator(value: downloadProgress.progress),
         ),

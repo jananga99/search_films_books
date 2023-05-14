@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ftb/home/widgets/cards/tv_card/tv_card.dart';
 
 import '../../../../common/constants/message_constants.dart';
 import '../../../../common/constants/route_constants.dart';
 import '../../../../common/enums/enums.dart';
-import '../../../../common/models/tv_models/tv.dart';
-import '../../../bloc/tv_bloc/tv_bloc.dart';
+import '../../../../common/models/book_models/book.dart';
+import '../../../bloc/books_bloc/books_bloc.dart';
+import '../../cards/book_card/book_card.dart';
 import '../../empty_text/empty_text.dart';
 import '../../error_text/error_text.dart';
 import '../../idle_text/idle_text.dart';
@@ -14,48 +14,51 @@ import '../../loader/home_page_loader.dart';
 import '../../no_connection_text/no_connection.dart';
 import '../../paging_row/paging_row.dart';
 
-class TvSection extends StatefulWidget {
-  const TvSection({Key? key, required void Function(int) onPageSelected})
+class BookSection extends StatefulWidget {
+  const BookSection({Key? key, required void Function(int) onPageSelected})
       : _onPageSelected = onPageSelected,
         super(key: key);
   final void Function(int) _onPageSelected;
 
   @override
-  State<TvSection> createState() => _TvSectionState();
+  State<BookSection> createState() => _BookSectionState();
 }
 
-class _TvSectionState extends State<TvSection> {
-  late TvBloc _tvBloc;
+class _BookSectionState extends State<BookSection> {
+  late BooksBloc _booksBloc;
+
   @override
   Widget build(BuildContext context) {
-    void handleCardTap(Tv tv) {
-      Navigator.of(context).pushNamed(RouteConstants.tvRoute, arguments: tv);
+    void handleCardTap(Book book) {
+      Navigator.of(context)
+          .pushNamed(RouteConstants.bookRoute, arguments: book);
     }
 
     return LayoutBuilder(builder: (context, constraints) {
-      return BlocBuilder<TvBloc, TvState>(
+      return BlocBuilder<BooksBloc, BooksState>(
         buildWhen: (prev, current) => prev != current,
         builder: (context, state) {
-          _tvBloc = context.read<TvBloc>();
+          _booksBloc = context.read<BooksBloc>();
           return Column(
             children: [
               Visibility(
-                visible: _tvBloc.state.status == TvStatus.idle,
-                child: const IdleText(SectionType.tv),
+                visible: _booksBloc.state.status == BooksStatus.idle,
+                child: const IdleText(SectionType.book),
               ),
               Visibility(
-                visible: _tvBloc.state.status == TvStatus.loading,
-                child: const HomePageLoader(SectionType.tv),
+                visible: _booksBloc.state.status == BooksStatus.loading,
+                child: const HomePageLoader(SectionType.book),
               ),
               Visibility(
-                visible: _tvBloc.state.status == TvStatus.succeeded &&
-                    _tvBloc.state.tvs.isEmpty,
-                child: const EmptyText(SectionType.tv),
+                visible: _booksBloc.state.status == BooksStatus.succeeded &&
+                    _booksBloc.state.books.isEmpty,
+                child: const EmptyText(SectionType.book),
               ),
               Visibility(
-                  visible: _tvBloc.state.status == TvStatus.succeeded &&
-                      _tvBloc.state.tvs.isNotEmpty,
+                  visible: _booksBloc.state.status == BooksStatus.succeeded &&
+                      state.books.isNotEmpty,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GridView.count(
                         shrinkWrap: true,
@@ -65,29 +68,29 @@ class _TvSectionState extends State<TvSection> {
                         childAspectRatio: 0.43,
                         padding: const EdgeInsets.all(16),
                         physics: const NeverScrollableScrollPhysics(),
-                        children: state.tvs
-                            .map((tv) => GestureDetector(
-                                onTap: () => handleCardTap(tv),
-                                child: TvCard(tv)))
+                        children: state.books
+                            .map((book) => GestureDetector(
+                                onTap: () => handleCardTap(book),
+                                child: BookCard(book)))
                             .toList(),
                       ),
                       Visibility(
-                        visible: _tvBloc.state.totalPages > 1,
+                        visible: _booksBloc.state.totalPages > 1,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: PagingRow(
                             onPageSelected: widget._onPageSelected,
-                            sectionType: SectionType.tv,
+                            sectionType: SectionType.book,
                           ),
                         ),
                       )
                     ],
                   )),
               Visibility(
-                visible: _tvBloc.state.status == TvStatus.failed,
-                child: _tvBloc.state.error == Messages.connectionError
+                visible: _booksBloc.state.status == BooksStatus.failed,
+                child: _booksBloc.state.error == Messages.connectionError
                     ? const NoConnectionText()
-                    : const ErrorText(SectionType.movie),
+                    : const ErrorText(SectionType.book),
               ),
             ],
           );

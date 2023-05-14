@@ -11,10 +11,13 @@ class ErrorText extends StatelessWidget {
     final String text;
     if (sectionType == SectionType.movie) {
       text =
-          "Oops! Something went wrong. Don't worry, it's not your fault. Please try again, or contact me if the problem persists.";
+          "Oops! Something went wrong. Don't worry, Please try again, or contact me if the problem persists.";
     } else if (sectionType == SectionType.tv) {
       text =
-          "Oops! Something went wrong. Don't worry, it's not your fault. Please try again, or contact me if the problem persists.";
+          "Oops! Something went wrong. Don't worry Please try again, or contact me if the problem persists.";
+    } else if (sectionType == SectionType.book) {
+      text =
+          "Oops! Something went wrong. Don't worry Please try again, or contact me if the problem persists.";
     } else {
       text = '';
     }

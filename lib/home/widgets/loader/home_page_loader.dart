@@ -11,6 +11,8 @@ class HomePageLoader extends StatelessWidget {
       text = "Hold on tight! We're searching for your movies.";
     } else if (sectionType == SectionType.tv) {
       text = "Hold on tight! We're searching for your tv series.";
+    } else if (sectionType == SectionType.book) {
+      text = "Hold on tight! We're searching for your books.";
     } else {
       text = '';
     }

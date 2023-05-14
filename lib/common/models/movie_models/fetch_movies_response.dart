@@ -1,4 +1,4 @@
-import 'package:ftb/common/models/movie_models/movie.dart';
+import 'movie.dart';
 
 class FetchMoviesResponse {
   FetchMoviesResponse(
