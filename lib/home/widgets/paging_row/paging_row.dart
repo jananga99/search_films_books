@@ -235,7 +235,6 @@ class PagingRow extends StatelessWidget {
                 number: state.page,
                 selected: true,
               ));
-              print(constraints.maxWidth);
               if (constraints.maxWidth > 370 &&
                   state.page != state.totalPages) {
                 pageButtons.add(PageNumber(
