@@ -1,4 +1,4 @@
-# Meraxes FT
+# Simple app to search for movies, tv series and books
 
 This is a personal app developed for movie and TV series enthusiasts. We created this app to help us search for our favorite movies and TV series with ease. We believe in making movie and TV series search more fun and enjoyable.
 
@@ -16,7 +16,9 @@ Create a `.env` file with the following contents at the root:
 `API_MOVIE_SEARCH=/3/search/movie`            
 `API_TV_SEARCH=/3/search/tv`             
 `BEARER_TOKEN=your-access-token-goes-here`            
-`IMAGE_URL=https://image.tmdb.org/t/p/original`  `           
+`IMAGE_URL=https://image.tmdb.org/t/p/original`  
+`API_BOOK_AUTHORITY_URL=www.googleapis.com`       
+`API_BOOK_SEARCH=/books/v1/volumes`     `
 
 To run the app in development mode, follow these steps:
 
@@ -34,7 +36,6 @@ To create a production build of the app, follow these steps:
     - Android: `flutter build apk`
 3. The built app will be located in the `build/app/outputs` directory.
 
-
 ## TMDB (The Movies Database) API Attribution
 
 We use the TMDB API to power our app. The TMDB API is an amazing resource for movie and TV series information. We acknowledge and appreciate their efforts to provide this API to developers like us.
@@ -42,6 +43,9 @@ We use the TMDB API to power our app. The TMDB API is an amazing resource for mo
 ### Attribution Requirements
 
 In accordance with the TMDB API terms of use, we have included the TMDB logo to identify our use of the TMDB API. We have also included a notice to inform our users that this app uses the TMDB API, but is not endorsed or certified by TMDB. We understand and acknowledge that our use of the TMDB logo must be less prominent than our own app logo.
+
+## Google Books API Attribution
+This app utilizes the Google Books API to provide book search functionality and access book-related information. We acknowledge and thank Google for providing the Google Books API. We have also included a notice to inform our users that this app uses the Google Books API, but is not endorsed or certified by Google Books.
 
 ## License
 
