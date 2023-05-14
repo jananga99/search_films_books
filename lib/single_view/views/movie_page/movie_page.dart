@@ -57,7 +57,10 @@ class MoviePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             PosterRelease(_movie.releaseDate),
-                            PosterLanguage(_movie.originalLanguage)
+                            PosterLanguage(
+                              language: _movie.originalLanguage,
+                              suffix: '        :    ',
+                            )
                           ],
                         ),
                         Expanded(

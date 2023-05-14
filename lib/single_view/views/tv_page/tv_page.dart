@@ -57,7 +57,10 @@ class TvPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             PosterRelease(_tv.firstAirDate),
-                            PosterLanguage(_tv.originalLanguage)
+                            PosterLanguage(
+                              language: _tv.originalLanguage,
+                              suffix: '        :    ',
+                            )
                           ],
                         ),
                         Expanded(

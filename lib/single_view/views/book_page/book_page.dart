@@ -65,7 +65,10 @@ class BookPage extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                PosterLanguage(_book.language),
+                                PosterLanguage(
+                                  language: _book.language,
+                                  suffix: '           :    ',
+                                ),
                                 PosterPublishDate(_book.publishedDate)
                               ],
                             ),
