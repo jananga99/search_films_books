@@ -21,25 +21,28 @@ class BookCard extends StatelessWidget {
           children: [
             Expanded(
               flex: 4,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: AspectRatio(
-                    aspectRatio: 2 / 3,
-                    child: _book.imageUrl != null
-                        ? CachedNetworkImage(
-                            imageUrl: _book.imageUrl!,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) => Center(
-                              child: CircularProgressIndicator(
-                                  value: downloadProgress.progress),
-                            ),
-                            errorWidget: (context, url, error) {
-                              logger.e(error);
-                              return const Icon(Icons.error);
-                            },
-                            fit: BoxFit.cover,
-                          )
-                        : const Icon(Icons.error)),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: AspectRatio(
+                      aspectRatio: 2 / 3,
+                      child: _book.imageUrl != null
+                          ? CachedNetworkImage(
+                              imageUrl: _book.imageUrl!,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) => Center(
+                                child: CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                              ),
+                              errorWidget: (context, url, error) {
+                                logger.e(error);
+                                return const Icon(Icons.error);
+                              },
+                              fit: BoxFit.cover,
+                            )
+                          : const Icon(Icons.error)),
+                ),
               ),
             ),
             Expanded(
